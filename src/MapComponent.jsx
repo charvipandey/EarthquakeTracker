@@ -10,9 +10,11 @@ import axios from "axios"; // Import Axios for data fetching
 
 const MapComponent = () => {
   const [earthquakeData, setEarthquakeData] = useState(null);
+  const [popupOpen, setPopupOpen] = useState(false);
   const [popupContent, setPopupContent] = useState("");
   const mapRef = useRef(null);
   const popupRef = useRef(null);
+  const popupOpenRef = useRef(false);
 
   const fetchData = async () => {
     try {
@@ -69,6 +71,8 @@ const MapComponent = () => {
         }),
       });
 
+      map.getView().fit(vectorSource.getExtent(), map.getSize());
+
       const overlay = new Overlay({
         element: popupRef.current,
         autoPan: true,
@@ -88,11 +92,12 @@ const MapComponent = () => {
           if (feature) {
             const coordinates = feature.getGeometry().getCoordinates();
             const properties = feature.getProperties();
+            const formattedTime = formatDate(properties.time);
             const popupContent = `
               <div class="popup-content">
                 <h4>Earthquake Information</h4>
                 <p><strong>Location:</strong> ${properties.place}</p>
-                <p><strong>Time:</strong> ${formatDate(new Date(properties.time))}</p>
+                <p><strong>Time:</strong> ${formattedTime}</p>
                 <p><strong>Magnitude:</strong> ${properties.mag}</p>
               </div>
             `;
@@ -119,35 +124,31 @@ const MapComponent = () => {
     return `hsl(${hue}, 100%, 50%)`;
   };
 
-  const formatDate = (date) => {
-    const months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-    const formattedDate = `${date.getDate()}-${months[date.getMonth()]}-${date.getFullYear()}, ${date.toLocaleTimeString()}`;
-    return formattedDate;
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = new Intl.DateTimeFormat("en-US", { month: "short" }).format(
+      date,
+    );
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+    return `${day}-${month}-${year}, ${hours}:${minutes}:${seconds}`;
   };
 
   return (
     <div
-      id="map"
+      id="map-container"
       ref={mapRef}
       style={{ height: "100vh", width: "100%", position: "relative" }}
     >
       <div
+        id="popup-container"
         ref={popupRef}
-        className="popup-container"
-        style={{ display: popupContent ? "block" : "none" }}
+        className={
+          popupContent ? "popup-container" : "popup-container fade-out"
+        }
         dangerouslySetInnerHTML={{ __html: popupContent }}
       />
     </div>
