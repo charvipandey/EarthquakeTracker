@@ -17,7 +17,7 @@ const MarkerComponent = ({ earthquakeData, map }) => {
       source: vectorSource,
       style: (feature) => {
         const mag = feature.get("mag");
-        const baseRadius = 5;
+        const baseRadius = getRadiusForMagnitude(mag);
         const fillColor = getColorForMagnitude(mag);
 
         return new Style({
@@ -28,6 +28,8 @@ const MarkerComponent = ({ earthquakeData, map }) => {
               color: "rgba(255,255,255,0.8)",
               width: 2,
             }),
+            // Add earthquake animation class
+            className: "earthquake-animation",
           }),
         });
       },
@@ -43,10 +45,7 @@ const MarkerComponent = ({ earthquakeData, map }) => {
   const getColorForMagnitude = (magnitude) => {
     let fillColor;
 
-    // For floating-point magnitudes, consider the ceiling value
-    magnitude = Math.ceil(magnitude);
-
-    switch (magnitude) {
+    switch (Math.ceil(magnitude)) {
       case 3:
         fillColor = "yellow";
         break;
@@ -64,20 +63,23 @@ const MarkerComponent = ({ earthquakeData, map }) => {
       case 7:
         fillColor = "red";
         break;
-      case 8:
-        // Dark red
-        fillColor = "darkred";
-        break;
-      case 9:
-        // Dark red
-        fillColor = "darkred";
-        break;
       default:
-        // For magnitudes beyond 9, use dark red
+        // For magnitudes beyond 7, use dark red
         fillColor = "darkred";
     }
 
     return fillColor;
+  };
+
+  const getRadiusForMagnitude = (magnitude) => {
+    // Define base radius for marker
+    const baseRadius = 5;
+
+    // Adjust radius based on magnitude
+    const radiusMultiplier = magnitude / 3; // Example: 3 magnitude will have base radius, 6 magnitude will have double radius
+    const radius = baseRadius * radiusMultiplier;
+
+    return radius;
   };
 
   return null;

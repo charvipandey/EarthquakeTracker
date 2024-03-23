@@ -51,6 +51,7 @@ const MapComponent = () => {
     <div
       id="map-container"
       ref={mapRef}
+      className="scrollable-container" // Add the scrollable container class
       style={{ height: "100vh", width: "100%", position: "relative" }}
     >
       {map && earthquakeData && (
