@@ -31,7 +31,7 @@ const PopupComponent = ({ map }) => {
         map.removeOverlay(overlay);
       }
     };
-  }, []); // Empty dependency array ensures this effect runs only once
+  }, []);
 
   useEffect(() => {
     if (!overlay) return;
@@ -57,7 +57,7 @@ const PopupComponent = ({ map }) => {
           overlay.getElement().innerHTML = popupContent;
           overlay.setPosition(coordinates);
         } else {
-          overlay.setPosition(undefined); // Clear overlay position if not over a marker
+          overlay.setPosition(undefined);
         }
       }
     };
