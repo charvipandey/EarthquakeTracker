@@ -3,7 +3,6 @@ import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
 import { GeoJSON } from "ol/format";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
-import PopupComponent from "./PopupComponent"; // Import PopupComponent
 
 const MarkerComponent = ({ earthquakeData, map }) => {
   useEffect(() => {
@@ -28,7 +27,6 @@ const MarkerComponent = ({ earthquakeData, map }) => {
               color: "rgba(255,255,255,0.8)",
               width: 2,
             }),
-            // Add earthquake animation class
             className: "earthquake-animation",
           }),
         });
@@ -50,21 +48,18 @@ const MarkerComponent = ({ earthquakeData, map }) => {
         fillColor = "yellow";
         break;
       case 4:
-        // Mix of yellow and orange
-        fillColor = "rgb(255, 191, 0)"; // Light orange (mix of yellow and orange)
+        fillColor = "rgb(255, 191, 0)";
         break;
       case 5:
         fillColor = "orange";
         break;
       case 6:
-        // Mix of orange and red
-        fillColor = "rgb(255, 128, 0)"; // Orange-red (mix of orange and red)
+        fillColor = "rgb(255, 128, 0)";
         break;
       case 7:
         fillColor = "red";
         break;
       default:
-        // For magnitudes beyond 7, use dark red
         fillColor = "darkred";
     }
 
@@ -72,13 +67,9 @@ const MarkerComponent = ({ earthquakeData, map }) => {
   };
 
   const getRadiusForMagnitude = (magnitude) => {
-    // Define base radius for marker
     const baseRadius = 5;
-
-    // Adjust radius based on magnitude
-    const radiusMultiplier = magnitude / 3; // Example: 3 magnitude will have base radius, 6 magnitude will have double radius
+    const radiusMultiplier = magnitude / 3;
     const radius = baseRadius * radiusMultiplier;
-
     return radius;
   };
 

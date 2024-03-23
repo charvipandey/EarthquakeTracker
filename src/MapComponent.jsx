@@ -5,7 +5,7 @@ import { OSM } from "ol/source";
 import { fromLonLat } from "ol/proj";
 import axios from "axios";
 import MarkerComponent from "./MarkerComponent";
-import PopupComponent from "./PopupComponent"; // Import PopupComponent
+import PopupComponent from "./PopupComponent";
 
 const MapComponent = () => {
   const [earthquakeData, setEarthquakeData] = useState(null);
@@ -51,7 +51,7 @@ const MapComponent = () => {
     <div
       id="map-container"
       ref={mapRef}
-      className="scrollable-container" // Add the scrollable container class
+      className="scrollable-container"
       style={{ height: "100vh", width: "100%", position: "relative" }}
     >
       {map && earthquakeData && (
