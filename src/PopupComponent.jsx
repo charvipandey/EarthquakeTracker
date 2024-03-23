@@ -4,29 +4,15 @@ import Overlay from "ol/Overlay";
 const PopupComponent = ({ map }) => {
   const [overlay, setOverlay] = useState(null);
 
-  const formatDate = (timestamp) => {
-    const date = new Date(timestamp);
-    const day = date.getDate();
-    const monthNames = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-    const monthIndex = date.getMonth();
+  const formatDate = (date) => {
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = date.toLocaleString("default", { month: "short" });
     const year = date.getFullYear();
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const seconds = date.getSeconds();
-    return `${day}-${monthNames[monthIndex]}-${year}, ${hours}:${minutes}:${seconds}`;
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+
+    return `${day}-${month}-${year}, ${hours}:${minutes}:${seconds}`;
   };
 
   useEffect(() => {
@@ -59,7 +45,7 @@ const PopupComponent = ({ map }) => {
         if (feature) {
           const coordinates = feature.getGeometry().getCoordinates();
           const properties = feature.getProperties();
-          const formattedTime = formatDate(properties.time);
+          const formattedTime = formatDate(new Date(properties.time));
           const popupContent = `
             <div class="popup-content">
               <h4>Earthquake Information</h4>
