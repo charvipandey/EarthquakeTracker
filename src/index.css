@@ -2,6 +2,7 @@ body,
 html {
   margin: 0;
   height: 100%;
+  scroll-behavior: smooth;
 }
 
 .App {
@@ -9,7 +10,7 @@ html {
   width: 100%;
   position: relative;
   padding: 5px;
-  overflow: auto;
+  overflow: false;
   display: flex;
   flex-direction: column;
   background-color: black;
@@ -33,7 +34,7 @@ html {
   min-height: 100vh;
   background-repeat: no-repeat;
   background-size: cover;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .scrollable-container {
@@ -90,9 +91,26 @@ html {
   padding: 0;
   text-align: left;
   flex-shrink: 0;
+  line-height: 50%;
+  font-size: 70%;
 }
 
 #footer ul {
   list-style-type: none;
   padding-left: 0;
+}
+
+#content {
+  flex-grow: 1;
+}
+
+.social-links {
+  display: flex;
+  list-style: none;
+  padding: 5px;
+  margin: 0;
+}
+
+.social-links li:not(:last-child) {
+  margin-right: 10px;
 }
