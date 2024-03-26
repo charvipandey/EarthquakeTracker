@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import HeaderComponent from "./HeaderComponent";
 import FooterComponent from "./FooterComponent";
 import MapComponent from "./MapComponent";
-import "./App.css";
 
 function App() {
   const [showFooter, setShowFooter] = useState(false);
